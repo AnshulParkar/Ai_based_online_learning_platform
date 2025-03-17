@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Menu } from "lucide-react";
 import { useState } from "react";
+import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
@@ -33,9 +34,18 @@ export default function Header() {
         </nav>
 
         {/* Right Section: Auth Buttons */}
-        <div className="hidden md:flex space-x-4">
-          <Button variant="ghost">Sign In</Button>
-          <Button>Sign Up</Button>
+        <div className="hidden md:flex items-center space-x-4">
+          <SignedIn>
+            <UserButton afterSignOutUrl="/" />
+          </SignedIn>
+          <SignedOut>
+            <Link href="/sign-in">
+              <Button variant="ghost">Sign In</Button>
+            </Link>
+            <Link href="/sign-up">
+              <Button>Sign Up</Button>
+            </Link>
+          </SignedOut>
         </div>
 
         {/* Mobile Menu Toggle */}
@@ -58,8 +68,19 @@ export default function Header() {
               About Us
             </Link>
             <Button variant="outline">Explore</Button>
-            <Button variant="ghost">Sign In</Button>
-            <Button>Sign Up</Button>
+            <SignedIn>
+              <div className="flex justify-center">
+                <UserButton afterSignOutUrl="/" />
+              </div>
+            </SignedIn>
+            <SignedOut>
+              <Link href="/sign-in">
+                <Button variant="ghost" className="w-full">Sign In</Button>
+              </Link>
+              <Link href="/sign-up">
+                <Button className="w-full">Sign Up</Button>
+              </Link>
+            </SignedOut>
           </ul>
         </nav>
       )}
